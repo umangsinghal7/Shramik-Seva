@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shramik Seva - Find Local Workers</title>
+
+    <!-- 1. Link to CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- 2. Link to css file -->
+    <link rel="stylesheet" href="style.css">
+    
+    <!--  Tailwind theme -->
+    <script>
+        tailwind.config = {
+            darkMode: 'class', 
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        'primary': '#059669', 
+                        'primary-dark': '#047857',
+                        'secondary': '#facc15', 
+                    }
+                }
+            }
+        }
+    </script>
+   
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        .job-list.dark::-webkit-scrollbar-thumb {
+            background-color: #374151; 
+        }
+        .job-list.dark::-webkit-scrollbar-track {
+            background: #1f2937; 
+        }
+        
+        .techita-logo-svg path {
+            fill: currentColor; 
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col bg-gray-50 dark:bg-gray-950 dark:text-white">
+
+    <!-- Header  -->
+    <header class="bg-white dark:bg-gray-900 shadow-lg p-4 sticky top-0 z-20">
+        <div class="max-w-6xl mx-auto flex justify-between items-center">
+            
+            <!-- Logo and Title -->
+            <div class="flex items-center space-x-2">
+                
+                <svg class="techita-logo-svg w-8 h-8 text-primary fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 2L2 6v10c0 4.42 3.58 8 8 8h4c4.42 0 8-3.58 8-8V6L12 2zM12 4.14L19.29 7v8.86c0 3.32-2.68 6-6 6h-2c-3.32 0-6-2.68-6-6V7L12 4.14z"/>
+                    <path fill="#ffffff" d="M12.5 10c-1.38 0-2.5 1.12-2.5 2.5s1.12 2.5 2.5 2.5c.37 0 .7-.08 1.02-.21l2.48 2.48c.09.09.21.14.35.14s.26-.05.35-.14c.19-.19.19-.51 0-.71l-2.48-2.48c.13-.32.21-.65.21-1.02 0-1.38-1.12-2.5-2.5-2.5zM12.5 11c.83 0 1.5.67 1.5 1.5s-.67 1.5-1.5 1.5-1.5-.67-1.5-1.5.67-1.5 1.5-1.5z"/>
+                </svg>
+                <h1 class="text-3xl font-extrabold text-gray-800 dark:text-white">
+                    Shramik Seva
+                </h1>
+            </div>
+
+            <div class="flex space-x-2 sm:space-x-4 items-center">
+                
+                
+                <button id="language-toggle" class="text-gray-600 dark:text-gray-300 hover:text-primary transition font-medium text-sm px-2 py-1 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">
+                    HI / EN
+                </button>
+
+                
+                <button id="theme-toggle" class="text-gray-600 dark:text-gray-300 hover:text-primary transition font-medium text-sm px-2 py-1 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">
+                    <i data-lucide="sun" id="theme-icon" class="w-5 h-5"></i>
+                </button>
+                
+                <a href="login.html" class="text-gray-600 hover:text-primary transition font-medium hidden sm:block" id="worker-login-link">
+                    Worker Login (Free)
+                </a>
+                <!-- Link to the pricing section -->
+                <a href="login.html" id="login-signup-link" class="bg-primary text-white font-bold py-2 px-4 rounded-lg shadow-md hover:bg-primary-dark transition transform hover:scale-[1.05]">
+                    Login/Signup
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- ⭐️ Hero Section -->
+    <section class="bg-primary text-white py-20 sm:py-24">
+        <div class="max-w-6xl mx-auto text-center px-4">
+            <h1 class="text-5xl sm:text-6xl font-extrabold mb-4 leading-tight">
+                Connect Directly. <span class="text-secondary block sm:inline">No Middlemen.</span>
+            </h1>
+            <p class="text-xl sm:text-2xl font-light mb-8 max-w-3xl mx-auto">
+                Your trusted, transparent, and fair platform for finding verified local workers (Shramik Seva).
+            </p>
+            <div class="space-x-4">
+                <a href="#worker-listings" class="bg-secondary text-gray-900 font-bold py-3 px-8 rounded-full shadow-lg hover:bg-yellow-400 transition transform hover:scale-105 inline-flex items-center">
+                    <i data-lucide="search" class="w-5 h-5 mr-2"></i> Find a Worker
+                </a>
+                <a href="#usp-section" class="text-white border-2 border-white py-3 px-8 rounded-full font-medium hover:bg-white hover:text-primary transition inline-flex items-center mt-4 sm:mt-0">
+                    Why We're Better
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content: Worker Search and Listings -->
+    <main class="flex-grow p-4 sm:p-8 pt-12" id="worker-listings">
+        <div class="max-w-6xl mx-auto">
+            <h2 class="text-3xl font-bold text-gray-800 dark:text-white mb-6 text-center">
+                Verified Local Worker Listings
+            </h2>
+
+            <!-- Search and Filter Section (Location-Based Search) -->
+            <div class="bg-white dark:bg-gray-900 p-6 rounded-2xl shadow-xl mb-10 border border-gray-200 dark:border-gray-700">
+                <h3 class="text-xl font-semibold mb-4 text-gray-700 dark:text-gray-200">Filter Services</h3>
+                <form id="filter-form" class="flex flex-col md:flex-row gap-4">
+                    <input
+                        type="text"
+                        id="skill-input"
+                        placeholder="Search by skill (e.g., Plumber, Carpenter, Driver)"
+                        class="flex-grow p-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-4 focus:ring-primary focus:border-primary transition duration-150 text-base dark:bg-gray-800 dark:text-white dark:border-gray-600"
+                    >
+                    <select
+                        id="location-select"
+                        class="p-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-4 focus:ring-primary focus:border-primary transition duration-150 text-base md:w-48 dark:bg-gray-800 dark:text-white dark:border-gray-600"
+                    >
+                        <option value="">All Locations</option>
+                        <option value="Maujpur">Maujpur</option>
+                        <option value="Seelampur">Seelampur</option>
+                        <option value="Krishna nagar">Krishna nagar</option>
+                        <option value="Khajuri">Khajuri</option>
+                        <option value="Shastri park">Shastri park</option>
+                        <option value="Kashmere gate">Kashmere gate</option>
+                        <option value="Yamuna Vihar">Yamuna Vihar</option>
+                        <option value="Dilshad Garden">Dilshad Garden</option>
+                        <option value="Shahdara">Shahdara</option>
+                    </select>
+                    <button
+                        type="submit"
+                        class="bg-secondary text-gray-800 font-semibold py-3 px-6 rounded-lg shadow-lg hover:bg-yellow-400 transition duration-200 ease-in-out md:w-auto transform hover:scale-[1.02]"
+                    >
+                        Search
+                    </button>
+                </form>
+            </div>
+
+            <!-- Worker Listings Container -->
+            <div class="job-list bg-white dark:bg-gray-900 p-6 rounded-2xl shadow-xl max-h-[60vh] overflow-y-auto border border-gray-200 dark:border-gray-700">
+                <ul id="workers-container" class="grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+                    <!-- Mock Worker Profile 1 -->
+                    <li class="bg-white p-5 rounded-xl shadow-lg border-t-4 border-primary hover:shadow-2xl transition duration-300 transform hover:-translate-y-1 dark:bg-gray-800 dark:border-gray-700">
+                        <div class="flex items-start justify-between mb-3">
+                            <h4 class="text-xl font-bold text-gray-800 dark:text-white">Ramesh Kumar</h4>
+                            <div class="flex flex-col items-end">
+                                <div class="flex items-center text-sm font-semibold text-secondary-dark">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="#facc15" stroke="#facc15" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-star inline-block"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="#facc15" stroke="#facc15" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-star inline-block"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="#facc15" stroke="#facc15" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-star inline-block"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="#facc15" stroke="#facc15" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-star inline-block"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#facc15" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-star inline-block"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                                </div>
+                                <p class="text-xs text-gray-500">(28 Reviews)</p>
+                            </div>
+                        </div>
+                        <p class="text-base text-gray-700 font-medium mb-1 dark:text-gray-300">Plumber <span class="text-xs bg-primary text-white px-2 py-0.5 rounded-full font-medium ml-2 flex items-center"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-check-circle mr-1"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><path d="m9 11 3 3L22 4"></path></svg> Verified</span></p>
+                        <p class="text-sm text-gray-500 mb-4">
+                            Experience: 5 years | Location: <span class="font-semibold">Maujpur</span>
+                        </p>
+                        <div class="flex space-x-3 mt-4">
+                            <button class="flex-1 bg-primary text-white text-sm font-semibold py-2 rounded-lg hover:bg-primary-dark transition">
+                                Chat Now
+                            </button>
+                            <button class="flex-1 bg-gray-200 text-gray-800 text-sm font-semibold py-2 rounded-lg hover:bg-gray-300 transition dark:bg-gray-700 dark:text-white dark:hover:bg-gray-600">
+                                Call
+                            </button>
+                        </div>
+                    </li>
+                    <!-- Mock Worker Profile 2 -->
+                    <li class="bg-white p-5 rounded-xl shadow-lg border-t-4 border-primary hover:shadow-2xl transition duration-300 transform hover:-translate-y-1 dark:bg-gray-800 dark:border-gray-700">
+                        <div class="flex items-start justify-between mb-3">
+                            <h4 class="text-xl font-bold text-gray-800 dark:text-white">Suresh Singh</h4>
+                            <div class="flex flex-col items-end">
+                                <div class="flex items-center text-sm font-semibold text-secondary-dark">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="#facc15" stroke="#facc15" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-star inline-block"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="#facc15" stroke="#facc15" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-star inline-block"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="#facc15" stroke="#facc15" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-star inline-block"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="#facc15" stroke="#facc15" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-star inline-block"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="#facc15" stroke="#facc15" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-star inline-block"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                                </div>
+                                <p class="text-xs text-gray-500">(45 Reviews)</p>
+                            </div>
+                        </div>
+                        <p class="text-base text-gray-700 font-medium mb-1 dark:text-gray-300">Electrician <span class="text-xs bg-primary text-white px-2 py-0.5 rounded-full font-medium ml-2 flex items-center"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-check-circle mr-1"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><path d="m9 11 3 3L22 4"></path></svg> Verified</span></p>
+                        <p class="text-sm text-gray-500 mb-4">
+                            Experience: 8 years | Location: <span class="font-semibold">Seelampur</span>
+                        </p>
+                        <div class="flex space-x-3 mt-4">
+                            <button class="flex-1 bg-primary text-white text-sm font-semibold py-2 rounded-lg hover:bg-primary-dark transition">
+                                Chat Now
+                            </button>
+                            <button class="flex-1 bg-gray-200 text-gray-800 text-sm font-semibold py-2 rounded-lg hover:bg-gray-300 transition dark:bg-gray-700 dark:text-white dark:hover:bg-gray-600">
+                                Call
+                            </button>
+                        </div>
+                    </li>
+                    <!-- Mock Worker Profile 3 -->
+                    <li class="bg-white p-5 rounded-xl shadow-lg border-t-4 border-primary hover:shadow-2xl transition duration-300 transform hover:-translate-y-1 dark:bg-gray-800 dark:border-gray-700">
+                        <div class="flex items-start justify-between mb-3">
+                            <h4 class="text-xl font-bold text-gray-800 dark:text-white">Amit Sharma</h4>
+                            <div class="flex flex-col items-end">
+                                <div class="flex items-center text-sm font-semibold text-secondary-dark">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="#facc15" stroke="#facc15" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-star inline-block"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="#facc15" stroke="#facc15" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-star inline-block"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="#facc15" stroke="#facc15" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-star inline-block"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="#facc15" stroke="#facc15" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-star inline-block"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#facc15" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-star inline-block"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                                </div>
+                                <p class="text-xs text-gray-500">(15 Reviews)</p>
+                            </div>
+                        </div>
+                        <p class="text-base text-gray-700 font-medium mb-1 dark:text-gray-300">Carpenter</p>
+                        <p class="text-sm text-gray-500 mb-4">
+                            Experience: 3 years | Location: <span class="font-semibold">Krishna Nagar</span>
+                        </p>
+                        <div class="flex space-x-3 mt-4">
+                            <button class="flex-1 bg-primary text-white text-sm font-semibold py-2 rounded-lg hover:bg-primary-dark transition">
+                                Chat Now
+                            </button>
+                            <button class="flex-1 bg-gray-200 text-gray-800 text-sm font-semibold py-2 rounded-lg hover:bg-gray-300 transition dark:bg-gray-700 dark:text-white dark:hover:bg-gray-600">
+                                Call
+                            </button>
+                        </div>
+                    </li>
+                    <!-- Worker profiles will be inserted here by script.js -->
+                </ul>
+                <p id="empty-message" class="text-center text-gray-500 mt-6 text-lg hidden">No workers matching your criteria.</p>
+            </div>
+        </div>
+        
+        <!-- ⭐️ Job Status Tracker Section -->
+        <section id="status-tracker" class="py-12 px-4 bg-gray-100 dark:bg-gray-800 rounded-2xl shadow-inner mt-12">
+            <div class="max-w-4xl mx-auto text-center">
+                <h2 class="text-3xl font-bold text-gray-800 dark:text-white mb-6" id="tracker-title">
+                    Track Your Job Status
+                </h2>
+                <p class="text-gray-600 dark:text-gray-400 mb-6" id="tracker-subtitle">
+                    Enter your Job/Ticket ID to instantly view the current status of your worker request.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 max-w-lg mx-auto">
+                    <input
+                        type="text"
+                        id="job-id-input"
+                        placeholder="Enter Job ID (e.g., SS-126945)"
+                        class="flex-grow p-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-4 focus:ring-primary focus:border-primary transition duration-150 text-base dark:bg-gray-700 dark:text-white dark:border-gray-600"
+                    >
+                    <button
+                        id="track-button"
+                        class="bg-primary text-white font-semibold py-3 px-6 rounded-lg shadow-lg hover:bg-primary-dark transition duration-200 ease-in-out sm:w-auto"
+                    >
+                        Track Status
+                    </button>
+                </div>
+                <div id="status-result" class="mt-6 p-4 bg-white dark:bg-gray-700 rounded-lg shadow-md text-left hidden">
+                    <!-- Status result injected here -->
+                </div>
+            </div>
+        </section>
+
+    <!-- ⭐️ USP Section (Unique Selling Proposition) -->
+    <section id="usp-section" class="py-16 bg-white dark:bg-gray-900">
+        <div class="max-w-6xl mx-auto px-4 text-center">
+            <h2 class="text-3xl font-bold text-gray-800 dark:text-white mb-10">
+                The Shramik Seva <span class="text-primary">Difference</span>
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                
+                <!-- USP 1: No Hidden Fees -->
+                <div class="p-6 rounded-xl border border-gray-200 dark:border-gray-700 shadow-lg hover:shadow-xl transition duration-300">
+                    <i data-lucide="percent-circle" class="w-12 h-12 text-primary mx-auto mb-4"></i>
+                    <h3 class="text-xl font-bold mb-2 dark:text-gray-100">Zero Commission</h3>
+                    <p class="text-gray-600 dark:text-gray-400">Workers keep 100% of their earnings. No high commissions, ever.</p>
+                </div>
+                
+                <!-- USP 2: Direct Connection -->
+                <div class="p-6 rounded-xl border border-gray-200 dark:border-gray-700 shadow-lg hover:shadow-xl transition duration-300">
+                    <i data-lucide="link" class="w-12 h-12 text-primary mx-auto mb-4"></i>
+                    <h3 class="text-xl font-bold mb-2 dark:text-gray-100">Direct Communication</h3>
+                    <p class="text-gray-600 dark:text-gray-400">Families/Factories connect instantly. Eliminate middlemen and delays.</p>
+                </div>
+                
+                <!-- USP 3: Verified Trust -->
+                <div class="p-6 rounded-xl border border-gray-200 dark:border-gray-700 shadow-lg hover:shadow-xl transition duration-300">
+                    <i data-lucide="shield-check" class="w-12 h-12 text-primary mx-auto mb-4"></i>
+                    <h3 class="text-xl font-bold mb-2 dark:text-gray-100">Verified Reliability</h3>
+                    <p class="text-gray-600 dark:text-gray-400">Access verified worker profiles built on community ratings and feedback.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+
+    
+    <!-- ⭐️ Testimonial Section (Reviews Snippet) -->
+    <section class="py-16 bg-white dark:bg-gray-900">
+        <div class="max-w-6xl mx-auto px-4 text-center">
+            <h2 class="text-3xl font-bold text-gray-800 dark:text-white mb-10">
+                Trusted by Local Families and Businesses
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                
+                <!-- Review 1 -->
+                <div class="p-6 bg-gray-50 dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 text-left shadow-lg">
+                    <div class="flex text-secondary mb-3">
+                        <i data-lucide="star" class="w-5 h-5 fill-secondary"></i>
+                        <i data-lucide="star" class="w-5 h-5 fill-secondary"></i>
+                        <i data-lucide="star" class="w-5 h-5 fill-secondary"></i>
+                        <i data-lucide="star" class="w-5 h-5 fill-secondary"></i>
+                        <i data-lucide="star" class="w-5 h-5 fill-secondary"></i>
+                    </div>
+                    <p class="text-gray-700 dark:text-gray-300 italic mb-4">"Found a verified electrician for my factory wiring issue in minutes. No hidden fees or hassle. Highly recommended!"</p>
+                    <p class="font-semibold text-sm text-gray-800 dark:text-gray-200">- Rajeev T. (Factory Owner)</p>
+                </div>
+                
+                <!-- Review 2 -->
+                <div class="p-6 bg-gray-50 dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 text-left shadow-lg">
+                    <div class="flex text-secondary mb-3">
+                        <i data-lucide="star" class="w-5 h-5 fill-secondary"></i>
+                        <i data-lucide="star" class="w-5 h-5 fill-secondary"></i>
+                        <i data-lucide="star" class="w-5 h-5 fill-secondary"></i>
+                        <i data-lucide="star" class="w-5 h-5 fill-secondary"></i>
+                        <i data-lucide="star" class="w-5 h-5 text-gray-300"></i>
+                    </div>
+                    <p class="text-gray-700 dark:text-gray-300 italic mb-4">"The Basic plan gave me access to quick contact info. The worker was professional and efficient. Great service!"</p>
+                    <p class="font-semibold text-sm text-gray-800 dark:text-gray-200">- Sunita K. (Homemaker)</p>
+                </div>
+
+                 <!-- Review 3 -->
+                <div class="p-6 bg-gray-50 dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 text-left shadow-lg">
+                    <div class="flex text-secondary mb-3">
+                        <i data-lucide="star" class="w-5 h-5 fill-secondary"></i>
+                        <i data-lucide="star" class="w-5 h-5 fill-secondary"></i>
+                        <i data-lucide="star" class="w-5 h-5 fill-secondary"></i>
+                        <i data-lucide="star" class="w-5 h-5 fill-secondary"></i>
+                        <i data-lucide="star" class="w-5 h-5 fill-secondary"></i>
+                    </div>
+                    <p class="text-gray-700 dark:text-gray-300 italic mb-4">"Finding a verified, reliable plumber nearby was impossible until now. The rating system is essential for trust."</p>
+                    <p class="font-semibold text-sm text-gray-800 dark:text-gray-200">- Amit L. (Small Business)</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ⭐️ Pricing Section -->
+    <section id="pricing-section" class="py-16 bg-gray-50 dark:bg-gray-900">
+        <div class="max-w-6xl mx-auto px-4 text-center">
+            <h2 class="text-3xl font-bold text-gray-800 dark:text-white mb-4">
+                Employer Subscription Plans
+            </h2>
+            <p class="text-lg text-gray-600 dark:text-gray-400 mb-10 max-w-3xl mx-auto">
+                Gain verified, paid access to trusted workers directly. Choose the plan that fits your needs.
+            </p>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+
+                <!-- Basic Plan -->
+                <div class="p-8 bg-white dark:bg-gray-800 rounded-2xl shadow-lg border-2 border-gray-200 dark:border-gray-700 flex flex-col">
+                    <h3 class="text-2xl font-bold mb-2 dark:text-gray-100">Basic Access</h3>
+                    <p class="text-4xl font-extrabold my-4 dark:text-white">₹49 <span class="text-base font-medium text-gray-500">/ month</span></p>
+                    <ul class="text-left space-y-3 text-gray-600 dark:text-gray-400 mb-8">
+                        <li class="flex items-center"><i data-lucide="check" class="w-5 h-5 text-primary mr-2"></i>View all worker profiles</li>
+                        <li class="flex items-center"><i data-lucide="check" class="w-5 h-5 text-primary mr-2"></i>Access to ratings & reviews</li>
+                        <li class="flex items-center"><i data-lucide="check" class="w-5 h-5 text-primary mr-2"></i>Limited to 5 contacts/day</li>
+                    </ul>
+                    <button id="subscribe-basic" class="mt-auto w-full bg-gray-200 text-gray-800 font-bold py-3 rounded-lg hover:bg-gray-300 transition">Subscribe</button>
+                </div>
+
+                <!-- Premium Plan (Most Popular) -->
+                <div class="p-8 bg-white dark:bg-gray-800 rounded-2xl shadow-2xl border-2 border-primary flex flex-col relative">
+                    <span class="absolute top-0 -translate-y-1/2 bg-primary text-white text-xs font-bold px-3 py-1 rounded-full">MOST POPULAR</span>
+                    <h3 class="text-2xl font-bold mb-2 dark:text-gray-100">Premium Verified</h3>
+                    <p class="text-4xl font-extrabold my-4 dark:text-white">₹99 <span class="text-base font-medium text-gray-500">/ month</span></p>
+                    <ul class="text-left space-y-3 text-gray-600 dark:text-gray-400 mb-8">
+                        <li class="flex items-center"><i data-lucide="check" class="w-5 h-5 text-primary mr-2"></i>All Basic features</li>
+                        <li class="flex items-center"><i data-lucide="check" class="w-5 h-5 text-primary mr-2"></i>Unlimited contacts</li>
+                        <li class="flex items-center"><i data-lucide="check" class="w-5 h-5 text-primary mr-2"></i>Direct chat & call access</li>
+                        <li class="flex items-center"><i data-lucide="check" class="w-5 h-5 text-primary mr-2"></i>Priority customer support</li>
+                    </ul>
+                    <button id="subscribe-premium" class="mt-auto w-full bg-primary text-white font-bold py-3 rounded-lg hover:bg-primary-dark transition">Subscribe</button>
+                </div>
+
+                <!-- Enterprise Plan -->
+                <div class="p-8 bg-white dark:bg-gray-800 rounded-2xl shadow-lg border-2 border-gray-200 dark:border-gray-700 flex flex-col">
+                    <h3 class="text-2xl font-bold mb-2 dark:text-gray-100">Factory/Enterprise</h3>
+                    <p class="text-4xl font-extrabold my-4 dark:text-white">₹499 <span class="text-base font-medium text-gray-500">/ month</span></p>
+                    <ul class="text-left space-y-3 text-gray-600 dark:text-gray-400 mb-8">
+                        <li class="flex items-center"><i data-lucide="check" class="w-5 h-5 text-primary mr-2"></i>All Premium features</li>
+                        <li class="flex items-center"><i data-lucide="check" class="w-5 h-5 text-primary mr-2"></i>Bulk hiring tools</li>
+                        <li class="flex items-center"><i data-lucide="check" class="w-5 h-5 text-primary mr-2"></i>Dedicated account manager</li>
+                    </ul>
+                    <button id="subscribe-enterprise" class="mt-auto w-full bg-gray-200 text-gray-800 font-bold py-3 rounded-lg hover:bg-gray-300 transition">Subscribe</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    
+    <!-- Add extra spacing to ensure the page scrolls well past the bottom content -->
+    <div class="h-16"></div> 
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 dark:bg-gray-950 text-white p-4 mt-12">
+        <div class="max-w-6xl mx-auto text-center text-sm">
+            <div class="flex justify-center flex-wrap space-x-6 mb-2">
+                <!-- Contact Feature (Umang's email) -->
+                <a href="mailto:sharmikseva@gmail.com" class="text-gray-300 hover:text-secondary transition font-medium">
+                    Contact: sharmikseva@gmail.com
+                </a>
+                <!-- Admin Dashboard Mockup -->
+                <a href="#" onclick="showNotification('Admin Login interface would open here.'); return false;" class="text-gray-300 hover:text-secondary transition font-medium" id="admin-link">
+                    Admin Dashboard
+                </a>
+            </div>
+            <p>&copy; 2025 Shramik Seva | A Transparent and Fair Platform.  </p>
+        </div>
+    </footer>
+
+    <!-- ⭐️ HELP CHAT BOX (Fixed Position) -->
+    <div class="fixed bottom-6 right-6 z-50">
+        <!-- Chat Icon Button -->
+        <button 
+            id="chat-toggle-button" 
+            class="bg-primary text-white p-4 rounded-full shadow-2xl hover:bg-primary-dark transition transform hover:scale-110 active:scale-100 focus:outline-none"
+            onclick="toggleChatBox()"
+        >
+            <i data-lucide="message-circle" class="w-7 h-7"></i>
+        </button>
+
+        <!-- Chat Panel/Modal -->
+        <div 
+            id="help-chat-box" 
+            class="absolute bottom-0 right-0 mb-16 w-80 h-96 bg-white dark:bg-gray-800 rounded-xl shadow-2xl overflow-hidden flex flex-col transition-transform duration-300 transform scale-0 origin-bottom-right border border-gray-200 dark:border-gray-700"
+        >
+            <!-- Chat Header -->
+            <div class="bg-primary text-white p-4 flex justify-between items-center">
+                <h3 class="font-bold" id="chat-header-title">Shramik Seva Help</h3>
+                <button onclick="toggleChatBox()" class="hover:text-secondary transition">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+
+            <!-- Chat Body (Mock Conversation) -->
+            <div class="flex-grow p-3 space-y-3 overflow-y-auto" id="chat-messages">
+                <!-- Bot Welcome Message -->
+                <div class="flex justify-start">
+                    <div class="bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 p-3 rounded-xl rounded-bl-sm max-w-[85%] text-sm shadow">
+                        Welcome to Shramik Seva Support! How can I help you find a worker today?
+                    </div>
+                </div>
+                <!-- User Mock Message -->
+                <div class="flex justify-end">
+                    <div class="bg-primary text-white p-3 rounded-xl rounded-br-sm max-w-[85%] text-sm shadow-md">
+                        What are the rates for an electrician in Seelampur?
+                    </div>
+                </div>
+                 <!-- Bot Response -->
+                <div class="flex justify-start">
+                    <div class="bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 p-3 rounded-xl rounded-bl-sm max-w-[85%] text-sm shadow">
+                        Rates vary by worker experience. Please check the Premium Verified plan for direct contact access to negotiate rates.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chat Input (Mock) -->
+            <div class="p-3 border-t border-gray-200 dark:border-gray-700">
+                <input type="text" placeholder="Type your message..." class="w-full p-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-900 dark:text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-sm">
+            </div>
+        </div>
+    </div>
+
+    <!-- 3. Link to JavaScript file (using 'defer' to ensure HTML is loaded first) -->
+    <script src="script.js" defer></script>
+</body>
+</html>

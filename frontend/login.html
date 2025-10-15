@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login / Signup - Shramik Seva</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="style.css" />
+
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    fontFamily: { sans: ["Inter", "sans-serif"] },
+                    colors: {
+                        primary: "#059669",
+                        "primary-dark": "#047857",
+                        secondary: "#facc15",
+                    },
+                },
+            },
+        };
+    </script>
+
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+</head>
+
+<body class="bg-gray-50 dark:bg-gray-950 flex items-center justify-center min-h-screen">
+
+    <div
+        class="max-w-md w-full bg-white dark:bg-gray-900 p-8 rounded-2xl shadow-2xl border border-gray-200 dark:border-gray-700 text-center">
+
+        <!-- Logo + Title -->
+        <div class="flex items-center justify-center space-x-2 mb-6">
+            <svg class="w-10 h-10 text-primary" viewBox="0 0 24 24">
+                <path fill="currentColor"
+                    d="M12 2L2 6v10c0 4.42 3.58 8 8 8h4c4.42 0 8-3.58 8-8V6L12 2zM12 4.14L19.29 7v8.86c0 3.32-2.68 6-6 6h-2c-3.32 0-6-2.68-6-6V7L12 4.14z" />
+            </svg>
+            <h1 class="text-4xl font-extrabold text-gray-800 dark:text-white">Shramik Seva</h1>
+        </div>
+
+        <!-- Heading -->
+        <h2 id="form-title" class="text-2xl font-bold text-gray-700 dark:text-gray-200 mb-2">Welcome Back!</h2>
+        <p id="form-subtitle" class="text-gray-500 dark:text-gray-400 mb-8">Sign in to access your account.</p>
+
+        <!-- Role Selector -->
+        <div class="mb-4">
+            <label class="block text-gray-700 dark:text-gray-200 mb-2">I am a:</label>
+            <div class="flex justify-center gap-4">
+                <label class="flex items-center">
+                    <input type="radio" name="role" value="user" class="form-radio" checked>
+                    <span class="ml-2 text-gray-700 dark:text-gray-200">User / Employer</span>
+                </label>
+                <label class="flex items-center">
+                    <input type="radio" name="role" value="worker" class="form-radio">
+                    <span class="ml-2 text-gray-700 dark:text-gray-200">Worker</span>
+                </label>
+            </div>
+        </div>
+
+        <!-- Google Auth -->
+        <div id="g_id_onload" data-client_id="YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com"
+            data-callback="handleCredentialResponse">
+        </div>
+        <div class="g_id_signin" data-type="standard" data-size="large" data-theme="outline" data-text="sign_in_with"
+            data-shape="rectangular" data-logo_alignment="left"></div>
+
+        <div class="my-6 flex items-center">
+            <hr class="flex-grow border-t border-gray-300 dark:border-gray-600">
+            <span class="mx-4 text-sm text-gray-400 dark:text-gray-500">OR</span>
+            <hr class="flex-grow border-t border-gray-300 dark:border-gray-600">
+        </div>
+
+        <!-- Login/Signup Form -->
+        <form id="auth-form" class="space-y-4">
+            <div id="name-field" class="hidden">
+                <label for="name" class="sr-only">Full Name</label>
+                <input type="text" id="name" placeholder="Full Name"
+                    class="w-full p-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-4 focus:ring-primary focus:border-primary transition dark:bg-gray-800 dark:text-white dark:border-gray-600" />
+            </div>
+
+            <!-- Worker Fields -->
+            <div id="worker-fields" class="hidden space-y-4">
+                <div>
+                    <label for="skill" class="sr-only">Skill</label>
+                    <input type="text" id="skill" placeholder="Skill (e.g., Plumber)"
+                        class="w-full p-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-4 focus:ring-primary focus:border-primary transition dark:bg-gray-800 dark:text-white dark:border-gray-600" />
+                </div>
+                <div>
+                    <label for="location" class="sr-only">Location</label>
+                    <input type="text" id="location" placeholder="Location"
+                        class="w-full p-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-4 focus:ring-primary focus:border-primary transition dark:bg-gray-800 dark:text-white dark:border-gray-600" />
+                </div>
+                <div>
+                    <label for="experience" class="sr-only">Experience</label>
+                    <input type="number" id="experience" placeholder="Experience in years"
+                        class="w-full p-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-4 focus:ring-primary focus:border-primary transition dark:bg-gray-800 dark:text-white dark:border-gray-600" />
+                </div>
+                <div>
+                    <label for="phone" class="sr-only">Phone Number</label>
+                    <input type="text" id="phone" placeholder="Phone Number"
+                        class="w-full p-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-4 focus:ring-primary focus:border-primary transition dark:bg-gray-800 dark:text-white dark:border-gray-600" />
+                </div>
+            </div>
+
+            <div>
+                <label for="email" class="sr-only">Email</label>
+                <input type="email" id="email" placeholder="Email Address" required
+                    class="w-full p-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-4 focus:ring-primary focus:border-primary transition dark:bg-gray-800 dark:text-white dark:border-gray-600" />
+            </div>
+
+            <div>
+                <label for="password" class="sr-only">Password</label>
+                <input type="password" id="password" placeholder="Password" required
+                    class="w-full p-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-4 focus:ring-primary focus:border-primary transition dark:bg-gray-800 dark:text-white dark:border-gray-600" />
+            </div>
+
+            <button type="submit"
+                class="w-full bg-primary text-white font-bold py-3 rounded-lg shadow-lg hover:bg-primary-dark transition transform hover:scale-[1.02]">
+                Sign In
+            </button>
+        </form>
+
+        <!-- Toggle Link -->
+        <p class="text-sm text-gray-500 dark:text-gray-400 mt-6">
+            <span id="toggle-text">Don't have an account?</span>
+            <button id="toggle-btn" class="font-semibold text-primary hover:underline">Sign Up</button>
+        </p>
+
+        <p class="text-sm text-gray-500 dark:text-gray-400 mt-2">
+            <a href="index.html" class="font-semibold text-primary hover:underline">&larr; Back to Home</a>
+        </p>
+    </div>
+
+    <script>
+        const form = document.getElementById("auth-form");
+        const toggleBtn = document.getElementById("toggle-btn");
+        const toggleText = document.getElementById("toggle-text");
+        const title = document.getElementById("form-title");
+        const subtitle = document.getElementById("form-subtitle");
+        const nameField = document.getElementById("name-field");
+        const workerFields = document.getElementById("worker-fields");
+        const submitBtn = form.querySelector("button");
+        const roleRadios = document.querySelectorAll('input[name="role"]');
+
+        let isLogin = true; // default: login mode
+
+        function updateFormView() {
+            const role = document.querySelector('input[name="role"]:checked').value;
+            if (isLogin) {
+                title.textContent = "Welcome Back!";
+                subtitle.textContent = "Sign in to access your account.";
+                nameField.classList.add("hidden");
+                workerFields.classList.add("hidden");
+                submitBtn.textContent = "Sign In";
+                toggleText.textContent = "Don't have an account?";
+                toggleBtn.textContent = "Sign Up";
+            } else { // Signup mode
+                title.textContent = "Create an Account";
+                subtitle.textContent = "Sign up to get started with Shramik Seva.";
+                nameField.classList.remove("hidden");
+                if (role === 'worker') {
+                    workerFields.classList.remove("hidden");
+                } else {
+                    workerFields.classList.add("hidden");
+                }
+                submitBtn.textContent = "Sign Up";
+                toggleText.textContent = "Already have an account?";
+                toggleBtn.textContent = "Sign In";
+            }
+        }
+
+        roleRadios.forEach(radio => {
+            radio.addEventListener('change', updateFormView);
+        });
+
+        toggleBtn.addEventListener("click", () => {
+            isLogin = !isLogin;
+            updateFormView();
+        });
+
+        form.addEventListener("submit", async (e) => {
+            e.preventDefault();
+
+            const role = document.querySelector('input[name="role"]:checked').value;
+            const email = document.getElementById("email").value.trim();
+            const password = document.getElementById("password").value.trim();
+            const name = document.getElementById("name").value.trim();
+
+            let endpoint;
+            let body;
+
+            if (role === 'user') {
+                endpoint = isLogin ? "/login" : "/signup";
+                body = isLogin ? { email, password } : { name, email, password };
+            } else { // worker
+                endpoint = isLogin ? "/worker/login" : "/worker/signup";
+                if (isLogin) {
+                    body = { email, password };
+                } else {
+                    const skill = document.getElementById("skill").value.trim();
+                    const location = document.getElementById("location").value.trim();
+                    const experience = document.getElementById("experience").value.trim();
+                    const phone = document.getElementById("phone").value.trim();
+                    body = { name, email, password, skill, location, experience, phone };
+                }
+            }
+
+            try {
+                const res = await fetch(`http://localhost:8000${endpoint}`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(body),
+                });
+
+                const data = await res.json();
+
+                if (data.message === "success" && data.data) {
+                    localStorage.setItem("user", JSON.stringify(data.data));
+                    window.location.href = "index.html";
+                } else {
+                    alert(data.error || data.message || "Authentication failed. Please try again.");
+                }
+            } catch (err) {
+                console.error(err);
+                alert("Server error. Check your backend connection.");
+            }
+        });
+
+        // Initial view setup
+        updateFormView();
+    </script>
+</body>
+
+</html>

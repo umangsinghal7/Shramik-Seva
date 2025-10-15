@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complete Your Payment - Shramik Seva</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="style.css">
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    fontFamily: { sans: ["Inter", "sans-serif"] },
+                    colors: {
+                        primary: "#059669",
+                        "primary-dark": "#047857",
+                        secondary: "#facc15",
+                    },
+                },
+            },
+        };
+    </script>
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+</head>
+
+<body class="bg-gray-50 dark:bg-gray-950 flex items-center justify-center min-h-screen">
+
+    <div
+        class="max-w-md w-full bg-white dark:bg-gray-900 p-8 rounded-2xl shadow-2xl border border-gray-200 dark:border-gray-700 text-center">
+
+        <!-- Logo + Title -->
+        <div class="flex items-center justify-center space-x-2 mb-6">
+            <svg class="w-10 h-10 text-primary" viewBox="0 0 24 24">
+                <path fill="currentColor"
+                    d="M12 2L2 6v10c0 4.42 3.58 8 8 8h4c4.42 0 8-3.58 8-8V6L12 2zM12 4.14L19.29 7v8.86c0 3.32-2.68 6-6 6h-2c-3.32 0-6-2.68-6-6V7L12 4.14z" />
+            </svg>
+            <h1 class="text-4xl font-extrabold text-gray-800 dark:text-white">Shramik Seva</h1>
+        </div>
+
+        <h2 class="text-2xl font-bold text-gray-700 dark:text-gray-200 mb-2">Complete Your Subscription</h2>
+        <p class="text-gray-500 dark:text-gray-400 mb-8">You are subscribing to the <span id="plan-name"
+                class="font-bold"></span> plan.</p>
+
+        <div class="bg-gray-100 dark:bg-gray-800 p-6 rounded-lg mb-8">
+            <p class="text-lg text-gray-600 dark:text-gray-300">Amount to Pay:</p>
+            <p class="text-5xl font-extrabold text-gray-900 dark:text-white">₹<span id="plan-amount"></span></p>
+        </div>
+
+        <button id="pay-now-btn"
+            class="w-full bg-primary text-white font-bold py-3 rounded-lg shadow-lg hover:bg-primary-dark transition transform hover:scale-[1.02]">
+            Pay Now
+        </button>
+
+        <p class="text-sm text-gray-500 dark:text-gray-400 mt-6">
+            <a href="index.html" class="font-semibold text-primary hover:underline">&larr; Back to Plans</a>
+        </p>
+    </div>
+
+    <script src="payment.js" defer></script>
+</body>
+
+</html>

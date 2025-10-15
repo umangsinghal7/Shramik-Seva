@@ -1,0 +1,44 @@
+/* ------------------------------------------- */
+/* 1. External Font Import */
+/* ------------------------------------------- */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap');
+
+/* ------------------------------------------- */
+/* 2. Custom Scrollbar Styling (for the job list) */
+/* ------------------------------------------- */
+.job-list::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+.job-list::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+}
+
+.job-list::-webkit-scrollbar-thumb {
+    background-color: #a7f3d0; /* Light green color */
+    border-radius: 4px;
+    border: 2px solid #f1f1f1;
+}
+
+.job-list::-webkit-scrollbar-thumb:hover {
+    background-color: #6ee7b7;
+}
+
+/* Dark mode overrides for scrollbar */
+.job-list.dark::-webkit-scrollbar-track {
+    background: #1f2937; /* Gray-800 */
+}
+
+.job-list.dark::-webkit-scrollbar-thumb {
+    background-color: #374151; /* Gray-700 */
+    border-color: #1f2937;
+}
+
+/* ------------------------------------------- */
+/* 3. Base Body/HTML Styles */
+/* ------------------------------------------- */
+body {
+    font-family: 'Inter', sans-serif;
+}
